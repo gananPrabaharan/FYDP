@@ -1,4 +1,5 @@
 #include "Motor.hpp"
+#include <Arduino.h>
 
 Motor::Motor(int portM, int portE) 
 : PORT_M(portM), PORT_E(portE)
@@ -7,19 +8,14 @@ Motor::Motor(int portM, int portE)
     pinMode(PORT_E, OUTPUT); 
 }
 
-void Motor::enable()
+void Motor::stop()
 {
-	digitalWrite(PORT_M, HIGH); 
 	analogWrite(PORT_E, LOW);
 }
 
-void Motor::disable()
+void Motor::setSpeed(int speed, Direction direction)
 {
-	digitalWrite(PORT_M, LOW); 
-	analogWrite(PORT_E, LOW);
-}
-
-void Motor::setSpeed(int speed)
-{
+    stop();
+    digitalWrite(PORT_M, (direction == CLOCKWISE) ? HIGH : LOW);
 	analogWrite(PORT_E, speed);
 }
